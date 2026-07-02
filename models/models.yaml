@@ -1,0 +1,44 @@
+# RVC model registry + optional blends.
+# Place .pth / .index under models/weights/{name}/
+
+models:
+  typecast_jihoon:
+    pth: typecast_jihoon/typecast_jihoon.pth
+    index: typecast_jihoon/added_IVF3783_Flat_nprobe_1_typecast_jihoon_v2.index
+    version: v2
+
+  typecast_seohyeon:
+    pth: typecast_seohyeon/typecast_seohyeon.pth
+    index: typecast_seohyeon/added_IVF4309_Flat_nprobe_1_typecast_seohyeon_v2.index
+    version: v2
+
+  typecast_male:
+    pth: typecast_male/typecast_male.pth
+    index: typecast_male/added_IVF3808_Flat_nprobe_1_typecast_male_v2.index
+    version: v2
+
+  SungSiKyung:
+    pth: SungSiKyung/SungSiKyung.pth
+    index: SungSiKyung/added_IVF4074_Flat_nprobe_1_ssk_v2.index
+    version: v2
+
+blends:
+  jihoon_ssk_50:
+    output: blends/jihoon_ssk_50.pth
+    sr: 40k
+    version: v2
+    f0: 1
+    components:
+      - model: typecast_jihoon
+        weight: 0.5
+      - model: SungSiKyung
+        weight: 0.5
+
+inference_defaults:
+  f0method: rmvpe
+  f0up_key: 0
+  index_rate: 0.5
+  filter_radius: 3
+  rms_mix_rate: 0.25
+  protect: 0.33
+  resample_sr: 0

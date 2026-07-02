@@ -1,0 +1,32 @@
+# Typecast voice_name → voice_id (verify with: python -m vocast.tts.list_voices)
+voices:
+  Changsu: tc_6059dad0b83880769a50502f
+  Yoonseo: tc_66d91c60da8dd20be59cd40b
+  Seohee: tc_66d91cac31a58a718f750a49
+  Cheolyong: tc_60b642cc895d04d712086748
+  Seohyeon: tc_69f2e455ea79fd197aa0476f
+  Jungsook: tc_66d91c8fda8dd20be59cd40c
+  Daeun: tc_66d91c7fda8dd20be59cd40a
+  Seungjae: tc_66d91c9fda8dd20be59cd40e
+  Kangil: tc_66d91c5fda8dd20be59cd408
+  Skylar: tc_67512e8b0b5984173fa04685
+  Cheolhoon: tc_60b642d8895d04d712086749
+  Youngmok: tc_60b642e4895d04d71208674a
+  Tessa: tc_60b642f0895d04d71208674b
+  Nia: tc_60b642fc895d04d71208674c
+
+gender:
+  Changsu: male
+  Yoonseo: female
+  Seohee: female
+  Cheolyong: male
+  Seohyeon: female
+  Jungsook: female
+  Daeun: female
+  Seungjae: male
+  Kangil: male
+  Skylar: female
+  Cheolhoon: male
+  Youngmok: male
+  Tessa: female
+  Nia: female

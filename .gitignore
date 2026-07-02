@@ -1,0 +1,23 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.DS_Store
+
+# weights & generated audio
+models/weights/**/*.pth
+models/weights/**/*.index
+models/weights/**/*.pt
+training_data/
+rvc_stack/rvc_train/
+logs/
+work/*.jsonl
+result/batches/
+result/merged/
+
+# keep placeholders
+!models/weights/.gitkeep
+!input/.gitkeep
+!result/.gitkeep

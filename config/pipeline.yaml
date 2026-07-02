@@ -1,0 +1,26 @@
+# Default pipeline settings
+tts_model: ssfm-v30
+gap_ms: 300
+dataset_root_name: 4도_통합_음성민원데이터
+
+# Job variants — each CSV row expands to one job per variant
+variants:
+  - id: tts_only
+    rvc: false
+  - id: rvc_seohyeon
+    rvc: true
+    model: typecast_seohyeon
+  - id: rvc_jihoon
+    rvc: true
+    model: typecast_jihoon
+
+# Adaptive pitch (semitones)
+adaptive_pitch:
+  male_to_female:
+    target_f0: 220.0
+    min: 0
+    max: 14
+  female_to_male:
+    target_f0: 140.0
+    min: -14
+    max: 0

@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vocast"
+version = "0.1.0"
+description = "Dialect complaint TTS + RVC dataset pipeline"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "typecast-ai",
+  "numpy",
+  "soundfile",
+  "pyworld",
+  "pyyaml",
+  "torch",
+  "rvc-python",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

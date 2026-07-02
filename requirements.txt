@@ -1,0 +1,7 @@
+typecast-ai>=0.1.0
+numpy
+soundfile
+pyworld
+pyyaml
+torch
+rvc-python

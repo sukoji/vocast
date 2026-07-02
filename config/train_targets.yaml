@@ -1,0 +1,74 @@
+# RVC training targets — Typecast voice → RVC model
+# Corpus: counselor (표준어) turns from audio_dataset, resynthesized with target voice.
+
+corpus_defaults:
+  region: 전라도
+  speaker: 상담원
+  # Override with env VOCAST_CORPUS_DATASET or --dataset
+  source_dataset: null
+  tts_model: ssfm-v30
+  expected_wav_count: 599
+
+targets:
+  typecast_jihoon:
+    voice_id: tc_61f0859907085fc68561c9a1
+    voice_name: Jihoon
+    gender: male
+    train:
+      epochs: 200
+      batch_size: 8
+      gpu: "0"
+
+  typecast_seohyeon:
+    voice_id: tc_69f2e455ea79fd197aa0476f
+    voice_name: Seohyeon
+    gender: female
+    train:
+      epochs: 200
+      batch_size: 8
+      gpu: "0"
+
+  typecast_skylar:
+    voice_id: tc_67512e8b0b5984173fa04685
+    voice_name: Skylar
+    gender: female
+    train:
+      epochs: 200
+      batch_size: 8
+      gpu: "0"
+
+  typecast_yejin:
+    voice_id: tc_67c90ad544cf859417f2fc3a
+    voice_name: Yejin
+    gender: female
+    train:
+      epochs: 200
+      batch_size: 8
+      gpu: "0"
+
+  typecast_male:
+    voice_id: tc_63aaec04428dd87af3757d72
+    voice_name: Seojoon
+    gender: male
+    train:
+      epochs: 200
+      batch_size: 8
+      gpu: "0"
+
+  typecast_gunwoo:
+    voice_id: tc_624cccbcadcd568510764d65
+    voice_name: Gunwoo
+    gender: male
+    train:
+      epochs: 200
+      batch_size: 8
+      gpu: "0"
+
+  typecast_jangwoon:
+    voice_id: tc_678884b481dfbfa3e4075a18
+    voice_name: Jangwoon
+    gender: male
+    train:
+      epochs: 200
+      batch_size: 8
+      gpu: "0"
