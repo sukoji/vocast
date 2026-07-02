@@ -7,11 +7,12 @@ from vocast.region_rules import SampleParams
 
 
 def _fmt_num(v: float) -> str:
-    s = f"{v:.2f}".rstrip("0").rstrip(".")
-    return s if "." in s else f"{s}.0" if s else "0"
+    """Zip sample paths always use two decimal places (e.g. i1.30, tempo0.95)."""
+    return f"{v:.2f}"
 
 
-def sample_uid(region: str, scenario_id: int) -> str:
+def sample_uid(region: str, scenario_id: int, *, source_uid: str = "") -> str:
+    """Zip format uid: {region}_id{scenario_id}. source_uid kept for internal manifest only."""
     return f"{region}_id{scenario_id}"
 
 

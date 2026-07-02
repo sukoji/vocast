@@ -24,8 +24,6 @@ from vocast.export.metadata import append_metadata_rows
 from vocast.manifest import load_pipeline_config
 from vocast.paths import BATCHES_DIR, CONFIG, DATASET_ROOT_NAME, WORK_DIR
 from vocast.region_rules import SampleParams, sample_params, voice_id
-from vocast.rvc.adaptive import adaptive_pitch, median_f0_hz, rvc_direction
-from vocast.rvc.engine import RvcEngine
 from vocast.tts.synthesize import resolve_voice_map, synth_turn
 
 
@@ -96,6 +94,8 @@ def process_job(job: dict, *, device: str | None = None) -> dict:
         else:
             fname = citizen_turn_name(i, params)
             if job.get("rvc"):
+                from vocast.rvc.adaptive import adaptive_pitch, median_f0_hz, rvc_direction
+                from vocast.rvc.engine import RvcEngine
                 direction = rvc_direction(params.citizen_voice)
                 f0 = median_f0_hz(tts_path)
                 pitch = adaptive_pitch(f0, direction)
@@ -126,7 +126,12 @@ def process_job(job: dict, *, device: str | None = None) -> dict:
 
     meta_path = batch_output_dir(job["batch_id"]) / "metadata.csv"
     append_metadata_rows(
-        meta_path, job=job, params=params, folder_name=folder_name, turn_records=turn_records
+        meta_path,
+        job=job,
+        params=params,
+        folder_name=folder_name,
+        turn_records=turn_records,
+        full_file_name=full_dialogue_name(params),
     )
 
     rules_src = CONFIG / "region_rules.yaml"

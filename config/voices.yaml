@@ -1,23 +1,23 @@
-# Typecast voice_name → voice_id (verify with: python -m vocast.tts.list_voices)
+# Typecast voice_name → voice_id (resolved via Typecast API 2026-07-02)
 voices:
   Changsu: tc_6059dad0b83880769a50502f
   Yoonseo: tc_66d91c60da8dd20be59cd40b
   Seohee: tc_66d91cac31a58a718f750a49
   Cheolyong: tc_60b642cc895d04d712086748
   Seohyeon: tc_69f2e455ea79fd197aa0476f
-  Jungsook: tc_66d91c8fda8dd20be59cd40c
-  Daeun: tc_66d91c7fda8dd20be59cd40a
-  Seungjae: tc_66d91c9fda8dd20be59cd40e
-  Kangil: tc_66d91c5fda8dd20be59cd408
+  Jungsook: tc_694b51e6dc12c8f4ec1a959c
+  Daeun: tc_692799c46508f6b9468c54c7
+  Seungjae: tc_67919fb54fd00e0217d2cff0
+  Kangil: tc_68d4b115f0486108a7eefb37
   Skylar: tc_67512e8b0b5984173fa04685
-  Cheolhoon: tc_60b642d8895d04d712086749
-  Youngmok: tc_60b642e4895d04d71208674a
-  Tessa: tc_60b642f0895d04d71208674b
-  Nia: tc_60b642fc895d04d71208674c
+  Cheolhoon: tc_685cdfad4027aeec7d097a28
+  Youngmok: tc_681c180fcc90c099ccc79aeb
+  Tessa: tc_682554969f03b333d376122a
+  Nia: tc_684a5a7ba2ce934624b59c6e
+  Hyoeun: tc_691d49ccc47926d741f15913
   Moonjung: tc_68f9c6a72f0f04a417bb136f
   Minuk: tc_68f0727fd62a5934102f7ec0
   Leehyun: tc_68ddea1e462b169ddd20b74d
-  Hyoeun: tc_691d49ccc47926d741f15913
   Wonwoo: tc_686dc43ebd6351e06ee64d74
   Seojin: tc_68537c9420b646f2176890ba
 
@@ -36,9 +36,9 @@ gender:
   Youngmok: male
   Tessa: female
   Nia: female
+  Hyoeun: female
   Moonjung: female
   Minuk: male
-  Leehyun: female
-  Hyoeun: female
+  Leehyun: male
   Wonwoo: male
-  Seojin: female
+  Seojin: male

@@ -22,12 +22,23 @@ def expand_jobs(
     *,
     variants: list[dict] | None = None,
     batch_id: str | None = None,
+    per_region: int = 0,
 ) -> list[dict]:
     """CSV rows → unique jobs (job_id UUID). 제주도 skipped by csv_reader."""
     cfg = load_pipeline_config()
     variants = variants or cfg["variants"]
     batch_id = batch_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     scenarios = read_scenarios(csv_path)
+
+    if per_region > 0:
+        from collections import defaultdict
+        by_region: dict[str, list[dict]] = defaultdict(list)
+        for sc in scenarios:
+            by_region[sc["region"]].append(sc)
+        scenarios = []
+        for region in sorted(by_region):
+            scenarios.extend(by_region[region][:per_region])
+
     jobs: list[dict] = []
 
     for sc in scenarios:
@@ -39,6 +50,7 @@ def expand_jobs(
                 "variant_id": var["id"],
                 "rvc": bool(var.get("rvc")),
                 "rvc_model": var.get("model"),
+                "source_uid": sc.get("uid") or "",
                 "scenario_id": sc["scenario_id"],
                 "region": sc["region"],
                 "source_csv": str(csv_path.relative_to(ROOT)) if csv_path.is_relative_to(ROOT) else str(csv_path),

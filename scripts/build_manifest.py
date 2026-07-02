@@ -20,12 +20,28 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=None, help="manifest.jsonl path")
     ap.add_argument("--shard", type=int, default=0, help="shard index (0-based)")
     ap.add_argument("--shard-count", type=int, default=1, help="total shards")
+    ap.add_argument("--per-region", type=int, default=0, help="max scenarios per region (0=all)")
+    ap.add_argument("--variants", default="", help="comma-separated variant ids e.g. tts_only")
     args = ap.parse_args()
 
     if not args.csv.is_file():
         sys.exit(f"[!] CSV not found: {args.csv}")
 
-    jobs = expand_jobs(args.csv, batch_id=args.batch_id)
+    variants = None
+    if args.variants.strip():
+        want = {v.strip() for v in args.variants.split(",") if v.strip()}
+        from vocast.manifest import load_pipeline_config
+        cfg = load_pipeline_config()
+        variants = [v for v in cfg["variants"] if v["id"] in want]
+        if not variants:
+            sys.exit(f"[!] no matching variants in {want}")
+
+    jobs = expand_jobs(
+        args.csv,
+        batch_id=args.batch_id,
+        per_region=args.per_region,
+        variants=variants,
+    )
     if args.shard_count > 1:
         jobs = shard_manifest(jobs, args.shard, args.shard_count)
 

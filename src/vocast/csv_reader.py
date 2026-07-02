@@ -20,6 +20,7 @@ def read_scenarios(csv_path: Path) -> list[dict]:
             if len(turns) < 4:
                 continue
             rows.append({
+                "uid": (row.get("uid") or "").strip(),
                 "scenario_id": int(row["scenario_id"]),
                 "region": region,
                 "location_address": row.get("location_address", ""),
