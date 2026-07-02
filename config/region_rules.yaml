@@ -1,10 +1,15 @@
-# TTS rules from 4도_통합_음성민원데이터_개선_샘플/룰.txt
+# TTS rules from 4도_통합_음성민원데이터_최종/룰.txt
 # 제주도: skip (not in REGION_CONFIG)
+
+# 상담원은 전 지역 공통 풀에서 시나리오 시드로 랜덤 선택 (지역별로 나누지 않음)
+counselor_voices: &counselors
+  [Seohyeon, Daeun, Seungjae, Kangil, Skylar, Cheolhoon, Youngmok,
+   Moonjung, Minuk, Leehyun, Hyoeun, Wonwoo, Seojin]
 
 regions:
   충청도:
     citizen_voices: [Changsu]
-    counselor_voices: [Seohyeon, Jungsook, Daeun, Seungjae, Kangil]
+    counselor_voices: *counselors
     citizen_emotions: [happy, sad, angry, normal]
     citizen_intensity: {type: uniform, min: 0.80, max: 1.60}
     citizen_tempo: {type: uniform, min: 0.80, max: 1.00}
@@ -12,7 +17,7 @@ regions:
 
   경상도:
     citizen_voices: [Yoonseo]
-    counselor_voices: [Seohyeon, Jungsook, Daeun, Seungjae, Kangil]
+    counselor_voices: *counselors
     citizen_emotions: [happy, sad, angry, normal]
     citizen_intensity: {type: uniform, min: 0.80, max: 1.60}
     citizen_tempo: {type: uniform, min: 1.00, max: 1.30}
@@ -20,15 +25,15 @@ regions:
 
   전라도:
     citizen_voices: [Seohee]
-    counselor_voices: [Skylar]
-    citizen_emotions: [happy, normal]
+    counselor_voices: *counselors
+    citizen_emotions: [happy]  # normal 제거 — 전라도는 happy 고정
     citizen_intensity: {type: uniform, min: 0.65, max: 1.35}
     citizen_tempo: {type: fixed, value: 1.2}
     counselor_neutral: true
 
   강원도:
     citizen_voices: [Cheolyong]
-    counselor_voices: [Cheolhoon, Youngmok, Tessa, Nia]
+    counselor_voices: *counselors
     citizen_emotions: [normal, angry, happy, toneup]
     citizen_intensity: {type: choice, values: [0.7, 0.9, 1.1, 1.3, 1.5]}
     citizen_tempo: {type: choice, values: [0.9, 0.95, 1.0, 1.05, 1.1]}

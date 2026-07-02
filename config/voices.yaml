@@ -14,6 +14,12 @@ voices:
   Youngmok: tc_60b642e4895d04d71208674a
   Tessa: tc_60b642f0895d04d71208674b
   Nia: tc_60b642fc895d04d71208674c
+  Moonjung: tc_68f9c6a72f0f04a417bb136f
+  Minuk: tc_68f0727fd62a5934102f7ec0
+  Leehyun: tc_68ddea1e462b169ddd20b74d
+  Hyoeun: tc_691d49ccc47926d741f15913
+  Wonwoo: tc_686dc43ebd6351e06ee64d74
+  Seojin: tc_68537c9420b646f2176890ba
 
 gender:
   Changsu: male
@@ -30,3 +36,9 @@ gender:
   Youngmok: male
   Tessa: female
   Nia: female
+  Moonjung: female
+  Minuk: male
+  Leehyun: female
+  Hyoeun: female
+  Wonwoo: male
+  Seojin: female
