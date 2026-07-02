@@ -21,3 +21,5 @@ result/merged/
 !models/weights/.gitkeep
 !input/.gitkeep
 !result/.gitkeep
+
+rvc_stack/rvc_train
