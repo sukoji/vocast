@@ -3,9 +3,6 @@ from __future__ import annotations
 import math
 from pathlib import Path
 
-import numpy as np
-import pyworld as pw
-import soundfile as sf
 from vocast.paths import CONFIG
 
 
@@ -15,6 +12,10 @@ def _load_pitch_cfg() -> dict:
 
 
 def median_f0_hz(path: Path) -> float:
+    import numpy as np
+    import pyworld as pw
+    import soundfile as sf
+
     x, sr = sf.read(str(path))
     if x.ndim > 1:
         x = x.mean(axis=1)
