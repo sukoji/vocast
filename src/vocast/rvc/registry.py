@@ -1,11 +1,7 @@
 from __future__ import annotations
 
-import math
 from pathlib import Path
 
-import numpy as np
-import pyworld as pw
-import soundfile as sf
 import yaml
 
 from vocast.paths import CONFIG, MODELS_DIR, ROOT
