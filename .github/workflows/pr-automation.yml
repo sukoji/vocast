@@ -20,24 +20,21 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-
-      - name: Update PR branch with main
+      - name: Update PR branch with main (GitHub API)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           PR="${{ github.event.pull_request.number }}"
-          git fetch origin main
-          if git merge origin/main --no-edit; then
-            git push origin "HEAD:${{ github.head_ref }}"
+          SHA="${{ github.event.pull_request.head.sha }}"
+          if gh api \
+            --method PUT \
+            "repos/${{ github.repository }}/pulls/${PR}/update-branch" \
+            -f expected_head_sha="${SHA}" >/dev/null 2>&1; then
             echo "Updated PR branch with latest main."
           else
-            git merge --abort || true
             gh pr comment "$PR" --repo "${{ github.repository }}" --body "⚠️ \`main\`과 충돌이 있어 자동 업데이트하지 못했습니다. 로컬에서 \`main\`을 merge/rebase한 뒤 push해 주세요."
+            echo "Branch update skipped (conflict or already up to date)."
           fi
 
   enable-auto-merge:
