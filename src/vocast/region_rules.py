@@ -46,15 +46,21 @@ def _sample_range(rng: random.Random, spec: dict) -> float:
 
 
 def sample_params(region: str, *, seed: int) -> SampleParams:
+    """generate_tts.py와 동일한 규칙: 민원인 파라미터는 seed 하나의 rng에서 순서대로,
+    상담원 voice만 seed*7919로 독립 시드(성우 배정이 감정/강도와 서로 안 얽히게)."""
     rules = load_region_rules()
     if region in rules.get("skip_regions", []):
         raise ValueError(f"region skipped: {region}")
     cfg = rules["regions"][region]
     rng = random.Random(seed)
 
-    citizen_voice = rng.choice(cfg["citizen_voices"])
-    counselor_voice = rng.choice(cfg["counselor_voices"])
-    citizen_emotion = rng.choice(cfg["citizen_emotions"])
+    citizen_voices = cfg["citizen_voices"]
+    # ponytail: voice가 1개뿐이면 뽑지 않고 그대로 사용(현재 전 지역 1개). 2개 이상 되면
+    # generate_tts.py처럼 시나리오 정렬 순서로 절반씩 나누는 로직이 필요 — 지금은 rng.choice로 대체.
+    citizen_voice = citizen_voices[0] if len(citizen_voices) == 1 else rng.choice(citizen_voices)
+    citizen_emotions = cfg["citizen_emotions"]
+    # ponytail: 값이 하나뿐이면 fixed와 동일하게 rng를 소비하지 않음(generate_tts.py의 ("fixed", v) 규칙)
+    citizen_emotion = citizen_emotions[0] if len(citizen_emotions) == 1 else rng.choice(citizen_emotions)
     citizen_intensity = _sample_range(rng, cfg["citizen_intensity"])
     citizen_tempo = _sample_range(rng, cfg["citizen_tempo"])
 
@@ -66,6 +72,12 @@ def sample_params(region: str, *, seed: int) -> SampleParams:
         counselor_emotion = cfg.get("counselor_emotion", "normal")
         counselor_intensity = _sample_range(rng, cfg["counselor_intensity"])
         counselor_tempo = _sample_range(rng, cfg["counselor_tempo"])
+
+    counselor_voices = cfg["counselor_voices"]
+    couns_rng = random.Random(seed * 7919)
+    counselor_voice = (
+        counselor_voices[0] if len(counselor_voices) == 1 else couns_rng.choice(counselor_voices)
+    )
 
     return SampleParams(
         citizen_voice=citizen_voice,

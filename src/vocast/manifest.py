@@ -8,7 +8,6 @@ from typing import Any
 
 import yaml
 
-from vocast.audio import stable_seed
 from vocast.csv_reader import read_scenarios
 from vocast.paths import CONFIG, ROOT
 
@@ -54,7 +53,7 @@ def expand_jobs(
                 "scenario_id": sc["scenario_id"],
                 "region": sc["region"],
                 "source_csv": str(csv_path.relative_to(ROOT)) if csv_path.is_relative_to(ROOT) else str(csv_path),
-                "param_seed": stable_seed(job_id),
+                "param_seed": sc["scenario_id"],  # generate_tts.py와 동일: scenario_id 기반 재현 가능 시드
                 "meta": {
                     "location_address": sc["location_address"],
                     "complainant_location_text": sc["complainant_location_text"],
