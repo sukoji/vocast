@@ -22,9 +22,9 @@ REGIONS: dict[str, dict] = {
         "fill": "#22d3ee",
         "stroke": "#67e8f9",
         "provinces": {"gangwon"},
-        "marker": (318, 118),
-        "label_anchor": "end",
-        "label_dx": -8,
+        "marker": (292, 128),
+        "label_anchor": "middle",
+        "label_dx": 0,
     },
     "gyeongsang": {
         "label": "경상",
@@ -37,18 +37,18 @@ REGIONS: dict[str, dict] = {
             "daegu",
             "ulsan",
         },
-        "marker": (392, 355),
-        "label_anchor": "end",
-        "label_dx": -8,
+        "marker": (348, 318),
+        "label_anchor": "middle",
+        "label_dx": 0,
     },
     "jeolla": {
         "label": "전라",
         "fill": "#10b981",
         "stroke": "#6ee7b7",
         "provinces": {"north-jeolla", "south-jeolla", "gwangju"},
-        "marker": (128, 418),
-        "label_anchor": "start",
-        "label_dx": 8,
+        "marker": (168, 368),
+        "label_anchor": "middle",
+        "label_dx": 0,
     },
     "chungcheong": {
         "label": "충청",
@@ -60,9 +60,9 @@ REGIONS: dict[str, dict] = {
             "daejeon",
             "sejong",
         },
-        "marker": (205, 278),
-        "label_anchor": "start",
-        "label_dx": 8,
+        "marker": (228, 262),
+        "label_anchor": "middle",
+        "label_dx": 0,
     },
 }
 
@@ -100,11 +100,12 @@ def region_for_province(pid: str) -> str | None:
 def build_svg(provinces: dict[str, str]) -> str:
     map_w, map_h = MAP_BOX
     # Fit map in right panel; exclude Jeju vertical tail a bit for balance
-    map_scale = 0.24
-    map_tx = W - map_w * map_scale - 32
-    map_ty = (H - map_h * map_scale) / 2 + 4
+    map_scale = 0.26
+    map_tx = W - map_w * map_scale - 28
+    map_ty = (H - map_h * map_scale) / 2 + 2
 
     parts: list[str] = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
         f'viewBox="0 0 {W} {H}" role="img" aria-label="vocast banner">',
         "<defs>",
@@ -174,12 +175,11 @@ def build_svg(provinces: dict[str, str]) -> str:
         dx = cfg.get("label_dx", 8)
         parts.extend(
             [
-                f'<circle cx="{sx:.1f}" cy="{sy:.1f}" r="3.5" fill="{cfg["fill"]}" '
-                f'stroke="#f8fafc" stroke-width="1.2"/>',
-                f'<text x="{sx + dx:.1f}" y="{sy + 4:.1f}" fill="#e2e8f0" '
+                f'<text x="{sx + dx:.1f}" y="{sy + 4:.1f}" fill="#f8fafc" '
                 f'text-anchor="{anchor}" '
                 f'font-family="Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif" '
-                f'font-size="11" font-weight="600">{cfg["label"]}</text>',
+                f'font-size="10" font-weight="700" '
+                f'stroke="#0b1220" stroke-width="2" paint-order="stroke">{cfg["label"]}</text>',
             ]
         )
 
