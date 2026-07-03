@@ -36,3 +36,8 @@ def test_pipeline_config_loads() -> None:
     cfg = _load("pipeline.yaml")
     assert cfg["variants"]
     assert any(v["id"] == "tts_only" for v in cfg["variants"])
+
+
+def test_ci_auto_merge_smoke_marker() -> None:
+    """Marker test for PR auto-merge workflow verification."""
+    assert True
