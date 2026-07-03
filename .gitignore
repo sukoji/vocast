@@ -13,6 +13,7 @@ models/weights/**/*.pt
 training_data/
 rvc_stack/rvc_train/
 logs/
+work/
 work/*.jsonl
 result/batches/
 result/merged/

@@ -1,0 +1,69 @@
+name: PR Automation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-branch:
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update PR branch with main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          PR="${{ github.event.pull_request.number }}"
+          gh pr checkout "$PR"
+          git fetch origin main
+          if git merge origin/main --no-edit; then
+            git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
+            echo "Updated PR branch with latest main."
+          else
+            git merge --abort || true
+            gh pr comment "$PR" --body "⚠️ \`main\`과 충돌이 있어 자동 업데이트하지 못했습니다. 로컬에서 \`main\`을 merge/rebase한 뒤 push해 주세요."
+            exit 0
+          fi
+
+  enable-auto-merge:
+    if: >
+      (
+        github.event_name == 'pull_request' &&
+        github.event.pull_request.draft == false
+      ) ||
+      (
+        github.event_name == 'workflow_run' &&
+        github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.event == 'pull_request'
+      )
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable auto-merge (squash)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            PR="${{ github.event.pull_request.number }}"
+          else
+            PR="$(gh pr list --repo "${{ github.repository }}" --head "${{ github.event.workflow_run.head_branch }}" --json number --jq '.[0].number')"
+          fi
+          if [[ -z "${PR:-}" || "$PR" == "null" ]]; then
+            echo "No open PR found for this run."
+            exit 0
+          fi
+          gh pr merge "$PR" --auto --squash || {
+            echo "Auto-merge not enabled yet (branch protection / repo setting may be pending)."
+            exit 0
+          }
