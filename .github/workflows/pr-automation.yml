@@ -18,22 +18,26 @@ jobs:
       github.event.pull_request.draft == false &&
       github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
       - name: Update PR branch with main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           PR="${{ github.event.pull_request.number }}"
-          gh pr checkout "$PR"
           git fetch origin main
           if git merge origin/main --no-edit; then
-            git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
+            git push origin "HEAD:${{ github.head_ref }}"
             echo "Updated PR branch with latest main."
           else
             git merge --abort || true
-            gh pr comment "$PR" --body "⚠️ \`main\`과 충돌이 있어 자동 업데이트하지 못했습니다. 로컬에서 \`main\`을 merge/rebase한 뒤 push해 주세요."
-            exit 0
+            gh pr comment "$PR" --repo "${{ github.repository }}" --body "⚠️ \`main\`과 충돌이 있어 자동 업데이트하지 못했습니다. 로컬에서 \`main\`을 merge/rebase한 뒤 push해 주세요."
           fi
 
   enable-auto-merge:
@@ -63,7 +67,7 @@ jobs:
             echo "No open PR found for this run."
             exit 0
           fi
-          gh pr merge "$PR" --auto --squash || {
+          gh pr merge "$PR" --repo "${{ github.repository }}" --auto --squash || {
             echo "Auto-merge not enabled yet (branch protection / repo setting may be pending)."
             exit 0
           }
