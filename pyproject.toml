@@ -9,7 +9,7 @@ description = "Dialect complaint TTS + RVC dataset pipeline"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-  "typecast-ai",
+  "typecast-python",
   "numpy",
   "soundfile",
   "pyworld",
