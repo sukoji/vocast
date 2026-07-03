@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/vocast-banner.png" alt="vocast — Dialect Voice Dataset Pipeline" width="720" />
+  <img src="docs/assets/vocast-banner.png" alt="vocast — Dialect Voice Dataset Pipeline" width="900" />
 </p>
 
 <p align="center">
