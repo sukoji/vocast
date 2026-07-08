@@ -40,17 +40,21 @@ def median_f0_hz(path: Path) -> float:
     return float(np.median(v)) if len(v) else 0.0
 
 
+AUDIO_EXTS = ("*.wav", "*.flac")
+
+
 def corpus_median_f0(corpus_dir: Path) -> float:
-    values = [f0 for wav in sorted(corpus_dir.glob("*.wav")) if (f0 := median_f0_hz(wav)) > 0]
+    files = sorted(f for ext in AUDIO_EXTS for f in corpus_dir.glob(ext))
+    values = [f0 for f in files if (f0 := median_f0_hz(f)) > 0]
     if not values:
-        sys.exit(f"[에러] {corpus_dir} 안에 유효한 wav 없음")
+        sys.exit(f"[에러] {corpus_dir} 안에 유효한 오디오 없음 (wav/flac)")
     return float(np.median(values))
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True, help="models.yaml의 모델(또는 blend) 이름")
-    ap.add_argument("--corpus", required=True, type=Path, help="학습에 쓴 wav 코퍼스 폴더")
+    ap.add_argument("--corpus", required=True, type=Path, help="학습에 쓴 wav/flac 코퍼스 폴더")
     ap.add_argument("--write", action="store_true", help="측정값을 models.yaml에 바로 기록")
     args = ap.parse_args()
 
